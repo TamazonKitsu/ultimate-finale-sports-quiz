@@ -12,30 +12,29 @@ class _MenusState extends State<Menus> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: Container(
+        alignment: Alignment.topCenter,
+        margin: EdgeInsets.all(10.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 100.0),
-              child: Text('Quiz', style: TextStyle(fontSize: 45.0)),
-            ),
-              MaterialButton(
-              height: 40.0,
-              color: Colors.blue,
-              child: Text("PLAY!",
-                style: TextStyle(
-                    fontSize: 30.0,
-                    color: Colors.white
-                ),),
+            Padding(padding: EdgeInsets.all(30.0)),
+            Text("Quiz", style: TextStyle(fontSize: 50.0)),
+            SizedBox(height: 200.0),
+            MaterialButton(
+              color: Colors.red,
               onPressed: (){
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context){
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context){
                       return MainScreen();
                     })
                 );
               },
-            ),
+              child: Text("PLAY!",
+                style: TextStyle(
+                    fontSize: 50.0,
+                    color: Colors.white
+                ),),
+            )
           ],
         ),
       ),
