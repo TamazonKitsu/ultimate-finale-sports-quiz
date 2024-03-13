@@ -9,12 +9,12 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Register/Login"),
+        title: Text("ยินดีต้อนรับสู่ Sports Trivia Quiz!"),
         backgroundColor: Colors.green,
         automaticallyImplyLeading: false,
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+        padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.lightBlueAccent
+                      backgroundColor: Colors.green
                   ),
                 ),
               ),
@@ -56,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.lightBlueAccent
+                      backgroundColor: Colors.green
                   ),
                 ),
               ),
