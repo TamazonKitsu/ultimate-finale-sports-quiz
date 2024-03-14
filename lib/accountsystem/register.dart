@@ -38,6 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             return Scaffold(
               appBar: AppBar(title: Text("สร้างบัญชีผูู้ใช้"),
                 backgroundColor: Colors.redAccent,
+                centerTitle: true,
               ),
               body: Container(
                 child: Padding(

@@ -37,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
             return Scaffold(
               appBar: AppBar(title: Text("เข้าสู่ระบบ"),
                 backgroundColor: Colors.green,
+                centerTitle: true,
               ),
               body: Container(
                 child: Padding(

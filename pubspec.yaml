@@ -70,6 +70,7 @@ flutter:
     - assets/images/baseball/
     - assets/images/volleyball/
     - assets/images/americanfootball/
+    - assets/images/decorations/
     - assets/question_image_mapping.json
 
   # An image asset can refer to one or more resolution-specific "variants", see

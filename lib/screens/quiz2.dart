@@ -38,11 +38,12 @@ class BasketballQuiz {
     {"question": "(8) สัญลักษณ์ทีมบาสนี้คือทีมอะไร", "choices": ["Golden State Warriors", "Los Angeles Lakers", "LA Clippers", "Sacramento Kings"], "correctAnswer": "Golden State Warriors"},
   ];
 
-  late final List<Map<String, dynamic>> questions;
+  late List<Map<String, dynamic>> questions;
 
   BasketballQuiz() {
     questions = List.from(BasketballQuiz.originalQuestions);
     questions.shuffle(Random());
+    questions = questions.take(20).toList();
   }
 }
 
@@ -240,10 +241,14 @@ class _Quiz2State extends State<Quiz2> {
 
 class Summary extends StatelessWidget {
   final int score;
+
   Summary({Key? key, required this.score}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double progress = score / 30;
+    Color containerColor = _getContainerColor(progress);
+
     return Scaffold(
       body: Center(
         child: Container(
@@ -251,17 +256,49 @@ class Summary extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                "Congratulations!",
-                style: TextStyle(
-                  fontSize: 25.0,
-                ),
-              ),
-              Text(
-                "You got: $score of 30",
-                style: TextStyle(
-                  fontSize: 25.0,
-                ),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    width: 300.0,
+                    height: 300.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.grey[400]!, width: 5.0),
+                    ),
+                    child: CircularProgressIndicator(
+                      value: progress,
+                      valueColor: AlwaysStoppedAnimation<Color>(containerColor),
+                      strokeWidth: 10.0,
+                      backgroundColor: Colors.grey[400],
+                    ),
+                  ),
+                  Container(
+                    width: 300.0,
+                    height: 300.0,
+                    padding: EdgeInsets.all(30.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Congratulations!",
+                          style: TextStyle(
+                            fontSize: 25.0,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 10.0),
+                        Text(
+                          "You got: $score of 20",
+                          style: TextStyle(
+                            fontSize: 25.0,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
 
               SizedBox(height: 30.0),
@@ -292,6 +329,7 @@ class Summary extends StatelessWidget {
                     minWidth: 120.0,
                     height: 45.0,
                     onPressed: () {
+                      quiz = BasketballQuiz();
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
                     },
                     child: Text(
@@ -309,5 +347,15 @@ class Summary extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color _getContainerColor(double progress) {
+    if (progress <= 0.33) {
+      return Colors.red;
+    } else if (progress <= 0.66) {
+      return Colors.orange;
+    } else {
+      return Colors.green;
+    }
   }
 }

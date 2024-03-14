@@ -38,11 +38,12 @@ class FootballQuiz {
     {"question": "ผู้เล่นคนใดที่ยิงประตูได้เร็วที่สุดในประวัติศาสตร์พรีเมียร์ลีก", "choices": ["อลัน เชียร์เรอร์", "เท็ดดี้ เชอริงแฮม", "เฟร็ด", "ดไวท์ ยอร์ค"], "correctAnswer": "ดไวท์ ยอร์ค"},
   ];
 
-    late final List<Map<String, dynamic>> questions;
+  late List<Map<String, dynamic>> questions;
 
   FootballQuiz() {
     questions = List.from(FootballQuiz.originalQuestions);
     questions.shuffle(Random());
+    questions = questions.take(20).toList();
   }
 }
 
@@ -240,74 +241,135 @@ class _Quiz1State extends State<Quiz1> {
 
 class Summary extends StatelessWidget {
   final int score;
+
   Summary({Key? key, required this.score}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double progress = score / 30;
+    Color containerColor = _getContainerColor(progress);
+
     return Scaffold(
-      body: Center(
-        child: Container(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "Congratulations!",
-                style: TextStyle(
-                  fontSize: 25.0,
-                ),
-              ),
-              Text(
-                "You got: $score of 30",
-                style: TextStyle(
-                  fontSize: 25.0,
-                ),
-              ),
-
-              SizedBox(height: 30.0),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  MaterialButton(
-                    color: Colors.red,
-                    minWidth: 120.0,
-                    height: 45.0,
-                    onPressed: () {
-                      Navigator.pop(context);
-                      finalScore = 0;
-                      questionNumber = 0;
-                    },
-                    child: Text(
-                      "Reset Quiz",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.white,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/decorations/summary.jpg"),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.5),
+                BlendMode.darken,
+            )
+          ),
+        ),
+        child: Center(
+          child: Container(
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 300.0,
+                      height: 300.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.grey[400]!, width: 5.0),
+                      ),
+                      child: CircularProgressIndicator(
+                        value: progress,
+                        valueColor: AlwaysStoppedAnimation<Color>(containerColor),
+                        strokeWidth: 10.0,
+                        backgroundColor: Colors.grey[400],
                       ),
                     ),
-                  ),
-                  SizedBox(width: 20.0),
-                  MaterialButton(
-                    color: Colors.blue,
-                    minWidth: 120.0,
-                    height: 45.0,
-                    onPressed: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
-                    },
-                    child: Text(
-                      "Main Menu",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.white,
+                    Container(
+                      width: 300.0,
+                      height: 300.0,
+                      padding: EdgeInsets.all(30.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Congratulations!",
+                            style: TextStyle(
+                              fontSize: 25.0,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 10.0),
+                          Text(
+                            "You got: $score of 20",
+                            style: TextStyle(
+                              fontSize: 25.0,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+
+                SizedBox(height: 30.0),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    MaterialButton(
+                      color: Colors.red,
+                      minWidth: 120.0,
+                      height: 45.0,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        finalScore = 0;
+                        questionNumber = 0;
+                      },
+                      child: Text(
+                        "Reset Quiz",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 20.0),
+                    MaterialButton(
+                      color: Colors.blue,
+                      minWidth: 120.0,
+                      height: 45.0,
+                      onPressed: () {
+                        quiz = FootballQuiz();
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
+                      },
+                      child: Text(
+                        "Main Menu",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Color _getContainerColor(double progress) {
+    if (progress <= 0.33) {
+      return Colors.red;
+    } else if (progress <= 0.66) {
+      return Colors.orange;
+    } else {
+      return Colors.green;
+    }
   }
 }
