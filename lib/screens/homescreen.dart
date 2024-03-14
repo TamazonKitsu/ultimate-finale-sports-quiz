@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("ยินดีต้อนรับสู่ Sports Trivia Quiz!"),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.lightBlueAccent,
         automaticallyImplyLeading: false,
       ),
       body: Padding(
@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green
+                      backgroundColor: Colors.lightBlueAccent
                   ),
                 ),
               ),
@@ -56,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green
+                      backgroundColor: Colors.lightBlueAccent
                   ),
                 ),
               ),

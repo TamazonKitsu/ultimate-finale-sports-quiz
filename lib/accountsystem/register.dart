@@ -37,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           if(snapshot.connectionState == ConnectionState.done){
             return Scaffold(
               appBar: AppBar(title: Text("สร้างบัญชีผูู้ใช้"),
-                backgroundColor: Colors.lightBlueAccent,
+                backgroundColor: Colors.redAccent,
               ),
               body: Container(
                 child: Padding(
@@ -51,8 +51,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           Text("E-mail",style: TextStyle(fontSize: 20.0)),
                           TextFormField(
                             validator: MultiValidator([
-                              RequiredValidator(errorText: "Please enter your email!"),
-                              EmailValidator(errorText: "Please enter your email in correct format!")
+                              RequiredValidator(errorText: "โปรดกรอกอีเมลของคุณ!"),
+                              EmailValidator(errorText: "โปรดกรอกอีเมลของคุณให้ถูกต้อง!")
                             ]),
                             keyboardType: TextInputType.emailAddress,
                             onSaved: (String? email){
@@ -62,7 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           SizedBox(height: 15),
                           Text("Password",style: TextStyle(fontSize: 20.0)),
                           TextFormField(
-                            validator: RequiredValidator(errorText: "Please enter your password!"),
+                            validator: RequiredValidator(errorText: "โปรดกรอกรหัสผ่านของคุณ!"),
                             obscureText: true,
                             onSaved: (String? password){
                               profile.password = password!;
@@ -95,10 +95,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   }on FirebaseAuthException catch(e){
                                     String message;
                                     if(e.code == 'email-already-in-use'){
-                                        message = 'This E-mail is already in use!';
+                                        message = 'อีเมลนี้ถูกใช้ไปแล้ว!';
                                     }
                                     else if(e.code == 'weak-password'){
-                                        message = 'The Password Must Be Longer Than 6!';
+                                        message = 'รหัสผ่านต้องมากกว่า 6 ตัวอักษร!';
                                     }
                                     else{
                                       message = e.message.toString();
@@ -111,7 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 }
                               },
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.lightBlueAccent
+                                  backgroundColor: Colors.redAccent
                               ),
                             ),
                           )

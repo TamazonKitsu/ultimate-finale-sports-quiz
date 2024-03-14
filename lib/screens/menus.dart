@@ -17,8 +17,8 @@ class _MenusState extends State<Menus> {
         margin: EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
-            Padding(padding: EdgeInsets.all(30.0)),
-            Text("Quiz", style: TextStyle(fontSize: 50.0)),
+            Padding(padding: EdgeInsets.all(17.0)),
+            Text("Quiz", style: TextStyle(fontSize: 70.0)),
             SizedBox(height: 200.0),
             MaterialButton(
               color: Colors.red,

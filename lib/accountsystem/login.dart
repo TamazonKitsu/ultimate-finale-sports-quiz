@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
           if(snapshot.connectionState == ConnectionState.done){
             return Scaffold(
               appBar: AppBar(title: Text("เข้าสู่ระบบ"),
-                backgroundColor: Colors.lightBlueAccent,
+                backgroundColor: Colors.green,
               ),
               body: Container(
                 child: Padding(
@@ -50,8 +50,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text("E-mail",style: TextStyle(fontSize: 20.0)),
                           TextFormField(
                             validator: MultiValidator([
-                              RequiredValidator(errorText: "Please enter your email!"),
-                              EmailValidator(errorText: "Please enter your email in correct format!")
+                              RequiredValidator(errorText: "โปรดกรอกอีเมลของคุณ!"),
+                              EmailValidator(errorText: "โปรดกรอกอีเมลของคุณให้ถูกต้อง!")
                             ]),
                             keyboardType: TextInputType.emailAddress,
                             onSaved: (String? email){
@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(height: 15),
                           Text("Password",style: TextStyle(fontSize: 20.0)),
                           TextFormField(
-                            validator: RequiredValidator(errorText: "Please enter your password!"),
+                            validator: RequiredValidator(errorText: "โปรดกรอกรหัสผ่านของคุณ!"),
                             obscureText: true,
                             onSaved: (String? password){
                               profile.password = password!;
@@ -86,16 +86,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 return Menus();
                                               }));
                                     });
-                                  }on FirebaseAuthException catch(e){
+                                  }on FirebaseAuthException {
                                     Fluttertoast.showToast(
-                                        msg: e.message.toString(),
+                                        msg: "โปรดกรอกข้อมูลของคุณให้ถูกต้อง",
                                         gravity: ToastGravity.CENTER
                                     );
                                   }
                                 }
                               },
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.lightBlueAccent
+                                  backgroundColor: Colors.green
                               ),
                             ),
                           )
