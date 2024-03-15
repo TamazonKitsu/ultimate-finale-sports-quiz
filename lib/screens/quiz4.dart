@@ -81,18 +81,21 @@ class _Quiz4State extends State<Quiz4> {
                 ),
               ),
               alignment: Alignment.topCenter,
-              margin: EdgeInsets.all(10.0),
               child: Column(
                 children: <Widget>[
                   Padding(padding: EdgeInsets.all(20.0)),
                   Container(
-                    alignment: Alignment.centerRight,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Question ${questionNumber + 1} of ${quiz.questions.length}",
-                            style: TextStyle(fontSize: 22.0)),
-                      ],
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
+                      child: Row(
+                        children: <Widget>[
+                          Text("Question ${questionNumber + 1} of ${quiz.questions.length}",
+                              style: TextStyle(
+                                fontSize: 22.0,
+                                color: Colors.white)),
+                        ],
+                      ),
                     ),
                   ),
                   Padding(padding: EdgeInsets.all(10.0)),
@@ -118,7 +121,9 @@ class _Quiz4State extends State<Quiz4> {
                     child: Center(
                       child: Text(
                         quiz.questions[questionNumber]["question"] as String,
-                        style: TextStyle(fontSize: 20.0),
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -268,7 +273,7 @@ class Summary extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
               image: AssetImage("assets/images/decorations/summary.jpg"),
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
               colorFilter: ColorFilter.mode(
                 Colors.black.withOpacity(0.5),
                 BlendMode.darken,

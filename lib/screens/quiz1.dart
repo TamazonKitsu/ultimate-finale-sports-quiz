@@ -66,103 +66,123 @@ class _Quiz1State extends State<Quiz1> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        body: Container(
-          alignment: Alignment.topCenter,
-          margin: EdgeInsets.all(10.0),
-          child: Column(
-            children: <Widget>[
-              Padding(padding: EdgeInsets.all(20.0)),
-              Container(
-                alignment: Alignment.centerRight,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text("Question ${questionNumber + 1} of ${quiz.questions.length}",
-                        style: TextStyle(fontSize: 22.0)),
-                  ],
-                ),
-              ),
-              Padding(padding: EdgeInsets.all(10.0)),
-
-              SizedBox(
-                height: 200,
-                child: FutureBuilder<Widget>(
-                  future: _buildImage(quiz.questions[questionNumber]["question"] as String),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return snapshot.data!;
-                    } else if (snapshot.hasError) {
-                      return Text("Error: ${snapshot.error}");
-                    }
-                    return Center(child: CircularProgressIndicator());
-                  },
-                ),
-              ),
-              Padding(padding: EdgeInsets.all(10.0)),
-
-              SizedBox(
-                height: 80,
-                child: Center(
-                  child: Text(
-                    quiz.questions[questionNumber]["question"] as String,
-                    style: TextStyle(fontSize: 20.0),
-                    textAlign: TextAlign.center,
+        body: Stack(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/decorations/footballdeco.png"),
+                  fit: BoxFit.fill,
+                  colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.5),
+                    BlendMode.darken,
                   ),
                 ),
               ),
-
-              Padding(padding: EdgeInsets.all(10.0)),
-
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              alignment: Alignment.topCenter,
+              child: Column(
                 children: <Widget>[
-                  for (int i = 0; i < quiz.questions[questionNumber]["choices"].length; i++)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: MaterialButton(
-                        minWidth: 260,
-                        height: 50,
-                        color: Colors.green,
-                        onPressed: () {
-                          setState(() {
-                            selectedChoice = quiz.questions[questionNumber]["choices"][i];
-                            final String selectedChoiceValue = selectedChoice!;
-                            if (selectedChoiceValue == quiz.questions[questionNumber]["correctAnswer"]) {
-                              debugPrint("Correct!!");
-                              finalScore++;
-                            } else {
-                              debugPrint("Wrong...");
-                            }
-                            updateQuestion();
-                          });
-                        },
-                        child: Text(
-                          quiz.questions[questionNumber]["choices"][i],
-                          style: TextStyle(fontSize: 18.0, color: Colors.white),
-                        ),
+                  Padding(padding: EdgeInsets.all(20.0)),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
+                      child: Row(
+                        children: <Widget>[
+                          Text("Question ${questionNumber + 1} of ${quiz.questions.length}",
+                              style: TextStyle(
+                                  fontSize: 22.0,
+                                  color: Colors.white)),
+                        ],
                       ),
                     ),
+                  ),
+                  Padding(padding: EdgeInsets.all(10.0)),
+
+                  SizedBox(
+                    height: 200,
+                    child: FutureBuilder<Widget>(
+                      future: _buildImage(quiz.questions[questionNumber]["question"] as String),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return snapshot.data!;
+                        } else if (snapshot.hasError) {
+                          return Text("Error: ${snapshot.error}");
+                        }
+                        return Center(child: CircularProgressIndicator());
+                      },
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.all(10.0)),
+
+                  SizedBox(
+                    height: 80,
+                    child: Center(
+                      child: Text(
+                        quiz.questions[questionNumber]["question"] as String,
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+
+                  Padding(padding: EdgeInsets.all(10.0)),
+
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      for (int i = 0; i < quiz.questions[questionNumber]["choices"].length; i++)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: MaterialButton(
+                            minWidth: 260,
+                            height: 50,
+                            color: Colors.green,
+                            onPressed: () {
+                              setState(() {
+                                selectedChoice = quiz.questions[questionNumber]["choices"][i];
+                                final String selectedChoiceValue = selectedChoice!;
+                                if (selectedChoiceValue == quiz.questions[questionNumber]["correctAnswer"]) {
+                                  debugPrint("Correct!!");
+                                  finalScore++;
+                                } else {
+                                  debugPrint("Wrong...");
+                                }
+                                updateQuestion();
+                              });
+                            },
+                            child: Text(
+                              quiz.questions[questionNumber]["choices"][i],
+                              style: TextStyle(fontSize: 18.0, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+
+                  Padding(padding: EdgeInsets.all(10.0)),
+                  SizedBox(height: 40.0),
+
+                  Container(
+                    alignment: Alignment.bottomCenter,
+                    child: MaterialButton(
+                      color: Colors.red,
+                      minWidth: 240.0,
+                      height: 45.0,
+                      onPressed: resetQuiz,
+                      child: Text(
+                        "To main menu",
+                        style: TextStyle(fontSize: 20.0, color: Colors.white),
+                      ),
+                    ),
+                  )
                 ],
               ),
-
-              Padding(padding: EdgeInsets.all(10.0)),
-              SizedBox(height: 40.0),
-
-              Container(
-                alignment: Alignment.bottomCenter,
-                child: MaterialButton(
-                  color: Colors.red,
-                  minWidth: 240.0,
-                  height: 45.0,
-                  onPressed: resetQuiz,
-                  child: Text(
-                    "To main menu",
-                    style: TextStyle(fontSize: 20.0, color: Colors.white),
-                  ),
-                ),
-              )
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -252,12 +272,12 @@ class Summary extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/decorations/summary.jpg"),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
+              image: AssetImage("assets/images/decorations/summary.jpg"),
+              fit: BoxFit.fill,
+              colorFilter: ColorFilter.mode(
                 Colors.black.withOpacity(0.5),
                 BlendMode.darken,
-            )
+              )
           ),
         ),
         child: Center(

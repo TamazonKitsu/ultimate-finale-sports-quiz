@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:finalprojectsportsquiz/screens/main_screen.dart';
 import 'package:finalprojectsportsquiz/appbar_clipper.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class Menus extends StatelessWidget {
   const Menus({Key? key}) : super(key: key);
@@ -34,7 +35,7 @@ class Menus extends StatelessWidget {
                   "QUIZ",
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 50.0,
+                    fontSize: 65.0,
                   ),
                 ),
               ),
@@ -63,6 +64,9 @@ class Menus extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 MaterialButton(
+                  shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  ),
                   color: Colors.red,
                   onPressed: () {
                     Navigator.push(
@@ -70,12 +74,15 @@ class Menus extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => MainScreen()),
                     );
                   },
-                  child: Text(
-                    "PLAY!",
+                  child: GradientText("PLAY!",
                     style: TextStyle(
-                      fontSize: 50.0,
-                      color: Colors.white,
+                      fontSize: 70.0,
                     ),
+                    gradientType: GradientType.linear,
+                    colors: [
+                      Color(0xff00a1ff),
+                      Color(0xff00ff8f),
+                    ],
                   ),
                 ),
               ],

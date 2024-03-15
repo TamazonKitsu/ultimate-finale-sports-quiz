@@ -66,104 +66,123 @@ class _Quiz2State extends State<Quiz2> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        body: Container(
-          alignment: Alignment.topCenter,
-          margin: EdgeInsets.all(10.0),
-          child: Column(
-            children: <Widget>[
-              Padding(padding: EdgeInsets.all(20.0)),
-              Container(
-                alignment: Alignment.centerRight,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text("Question ${questionNumber + 1} of ${quiz.questions.length}",
-                        style: TextStyle(fontSize: 22.0)),
-                    Text("Score: $finalScore", style: TextStyle(fontSize: 22.0)),
-                  ],
-                ),
-              ),
-              Padding(padding: EdgeInsets.all(10.0)),
-
-              SizedBox(
-                height: 200,
-                child: FutureBuilder<Widget>(
-                  future: _buildImage(quiz.questions[questionNumber]["question"] as String),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return snapshot.data!;
-                    } else if (snapshot.hasError) {
-                      return Text("Error: ${snapshot.error}");
-                    }
-                    return Center(child: CircularProgressIndicator());
-                  },
-                ),
-              ),
-              Padding(padding: EdgeInsets.all(10.0)),
-
-              SizedBox(
-                height: 80,
-                child: Center(
-                  child: Text(
-                    quiz.questions[questionNumber]["question"] as String,
-                    style: TextStyle(fontSize: 20.0),
-                    textAlign: TextAlign.center,
+        body: Stack(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/decorations/basketballdeco.png"),
+                  fit: BoxFit.fill,
+                  colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.5),
+                    BlendMode.darken,
                   ),
                 ),
               ),
-
-              Padding(padding: EdgeInsets.all(10.0)),
-
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              alignment: Alignment.topCenter,
+              child: Column(
                 children: <Widget>[
-                  for (int i = 0; i < quiz.questions[questionNumber]["choices"].length; i++)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: MaterialButton(
-                        minWidth: 260,
-                        height: 50,
-                        color: Colors.green,
-                        onPressed: () {
-                          setState(() {
-                            selectedChoice = quiz.questions[questionNumber]["choices"][i];
-                            final String selectedChoiceValue = selectedChoice!;
-                            if (selectedChoiceValue == quiz.questions[questionNumber]["correctAnswer"]) {
-                              debugPrint("Correct!!");
-                              finalScore++;
-                            } else {
-                              debugPrint("Wrong...");
-                            }
-                            updateQuestion();
-                          });
-                        },
-                        child: Text(
-                          quiz.questions[questionNumber]["choices"][i],
-                          style: TextStyle(fontSize: 18.0, color: Colors.white),
-                        ),
+                  Padding(padding: EdgeInsets.all(20.0)),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
+                      child: Row(
+                        children: <Widget>[
+                          Text("Question ${questionNumber + 1} of ${quiz.questions.length}",
+                              style: TextStyle(
+                                  fontSize: 22.0,
+                                  color: Colors.white)),
+                        ],
                       ),
                     ),
+                  ),
+                  Padding(padding: EdgeInsets.all(10.0)),
+
+                  SizedBox(
+                    height: 200,
+                    child: FutureBuilder<Widget>(
+                      future: _buildImage(quiz.questions[questionNumber]["question"] as String),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return snapshot.data!;
+                        } else if (snapshot.hasError) {
+                          return Text("Error: ${snapshot.error}");
+                        }
+                        return Center(child: CircularProgressIndicator());
+                      },
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.all(10.0)),
+
+                  SizedBox(
+                    height: 80,
+                    child: Center(
+                      child: Text(
+                        quiz.questions[questionNumber]["question"] as String,
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+
+                  Padding(padding: EdgeInsets.all(10.0)),
+
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      for (int i = 0; i < quiz.questions[questionNumber]["choices"].length; i++)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: MaterialButton(
+                            minWidth: 260,
+                            height: 50,
+                            color: Colors.green,
+                            onPressed: () {
+                              setState(() {
+                                selectedChoice = quiz.questions[questionNumber]["choices"][i];
+                                final String selectedChoiceValue = selectedChoice!;
+                                if (selectedChoiceValue == quiz.questions[questionNumber]["correctAnswer"]) {
+                                  debugPrint("Correct!!");
+                                  finalScore++;
+                                } else {
+                                  debugPrint("Wrong...");
+                                }
+                                updateQuestion();
+                              });
+                            },
+                            child: Text(
+                              quiz.questions[questionNumber]["choices"][i],
+                              style: TextStyle(fontSize: 18.0, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+
+                  Padding(padding: EdgeInsets.all(10.0)),
+                  SizedBox(height: 40.0),
+
+                  Container(
+                    alignment: Alignment.bottomCenter,
+                    child: MaterialButton(
+                      color: Colors.red,
+                      minWidth: 240.0,
+                      height: 45.0,
+                      onPressed: resetQuiz,
+                      child: Text(
+                        "To main menu",
+                        style: TextStyle(fontSize: 20.0, color: Colors.white),
+                      ),
+                    ),
+                  )
                 ],
               ),
-
-              Padding(padding: EdgeInsets.all(10.0)),
-              SizedBox(height: 40.0),
-
-              Container(
-                alignment: Alignment.bottomCenter,
-                child: MaterialButton(
-                  color: Colors.red,
-                  minWidth: 240.0,
-                  height: 45.0,
-                  onPressed: resetQuiz,
-                  child: Text(
-                    "To main menu",
-                    style: TextStyle(fontSize: 20.0, color: Colors.white),
-                  ),
-                ),
-              )
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -246,103 +265,117 @@ class Summary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double progress = score / 30;
+    double progress = score / 20;
     Color containerColor = _getContainerColor(progress);
 
     return Scaffold(
-      body: Center(
-        child: Container(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    width: 300.0,
-                    height: 300.0,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.grey[400]!, width: 5.0),
-                    ),
-                    child: CircularProgressIndicator(
-                      value: progress,
-                      valueColor: AlwaysStoppedAnimation<Color>(containerColor),
-                      strokeWidth: 10.0,
-                      backgroundColor: Colors.grey[400],
-                    ),
-                  ),
-                  Container(
-                    width: 300.0,
-                    height: 300.0,
-                    padding: EdgeInsets.all(30.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Congratulations!",
-                          style: TextStyle(
-                            fontSize: 25.0,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 10.0),
-                        Text(
-                          "You got: $score of 20",
-                          style: TextStyle(
-                            fontSize: 25.0,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(height: 30.0),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  MaterialButton(
-                    color: Colors.red,
-                    minWidth: 120.0,
-                    height: 45.0,
-                    onPressed: () {
-                      Navigator.pop(context);
-                      finalScore = 0;
-                      questionNumber = 0;
-                    },
-                    child: Text(
-                      "Reset Quiz",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.white,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/images/decorations/summary.jpg"),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.5),
+                BlendMode.darken,
+              )
+          ),
+        ),
+        child: Center(
+          child: Container(
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 300.0,
+                      height: 300.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.grey[400]!, width: 5.0),
+                      ),
+                      child: CircularProgressIndicator(
+                        value: progress,
+                        valueColor: AlwaysStoppedAnimation<Color>(containerColor),
+                        strokeWidth: 10.0,
+                        backgroundColor: Colors.grey[400],
                       ),
                     ),
-                  ),
-                  SizedBox(width: 20.0),
-                  MaterialButton(
-                    color: Colors.blue,
-                    minWidth: 120.0,
-                    height: 45.0,
-                    onPressed: () {
-                      quiz = BasketballQuiz();
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
-                    },
-                    child: Text(
-                      "Main Menu",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.white,
+                    Container(
+                      width: 300.0,
+                      height: 300.0,
+                      padding: EdgeInsets.all(30.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Congratulations!",
+                            style: TextStyle(
+                              fontSize: 25.0,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 10.0),
+                          Text(
+                            "You got: $score of 20",
+                            style: TextStyle(
+                              fontSize: 25.0,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+
+                SizedBox(height: 30.0),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    MaterialButton(
+                      color: Colors.red,
+                      minWidth: 120.0,
+                      height: 45.0,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        finalScore = 0;
+                        questionNumber = 0;
+                      },
+                      child: Text(
+                        "Reset Quiz",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 20.0),
+                    MaterialButton(
+                      color: Colors.blue,
+                      minWidth: 120.0,
+                      height: 45.0,
+                      onPressed: () {
+                        quiz = BasketballQuiz();
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
+                      },
+                      child: Text(
+                        "Main Menu",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
