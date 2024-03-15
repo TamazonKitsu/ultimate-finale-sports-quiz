@@ -22,113 +22,149 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: firebase,
-        builder: (context,snapshot){
-          if(snapshot.hasError){
-            return Scaffold(
-              appBar: AppBar(
-                title: Text("Error"),
-              ),
-              body: Center(
-                child: Text("${snapshot.error}"),
-              ),
-            );
-          }
-          if(snapshot.connectionState == ConnectionState.done){
-            return Scaffold(
-              appBar: AppBar(title: Text("สร้างบัญชีผูู้ใช้"),
-                backgroundColor: Colors.redAccent,
-                centerTitle: true,
-              ),
-              body: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Form(
-                    key: formKey,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("E-mail",style: TextStyle(fontSize: 20.0)),
-                          TextFormField(
-                            validator: MultiValidator([
-                              RequiredValidator(errorText: "โปรดกรอกอีเมลของคุณ!"),
-                              EmailValidator(errorText: "โปรดกรอกอีเมลของคุณให้ถูกต้อง!")
-                            ]),
-                            keyboardType: TextInputType.emailAddress,
-                            onSaved: (String? email){
-                              profile.email = email!;
-                            },
-                          ),
-                          SizedBox(height: 15),
-                          Text("Password",style: TextStyle(fontSize: 20.0)),
-                          TextFormField(
-                            validator: RequiredValidator(errorText: "โปรดกรอกรหัสผ่านของคุณ!"),
-                            obscureText: true,
-                            onSaved: (String? password){
-                              profile.password = password!;
-                            },
-                          ),
-                          SizedBox(height: 30.0),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              child: Text("ลงทะเบียน",style: TextStyle(fontSize: 20.0,
-                              color: Colors.white)),
-                              onPressed: () async{
-                                if(formKey.currentState!.validate()){
-                                  formKey.currentState?.save();
-                                  try {
-                                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                                        email: profile.email,
-                                        password: profile.password
-                                    ).then((value) {
-                                      formKey.currentState?.reset();
-                                      Fluttertoast.showToast(
-                                          msg: "สร้างบัญชีผู้ใช้สำเร็จ",
-                                          gravity: ToastGravity.TOP
-                                      );
-                                      Navigator.pushReplacement(context,
-                                          MaterialPageRoute(builder: (context){
-                                            return HomeScreen();
-                                          }));
-                                    });
-                                  }on FirebaseAuthException catch(e){
-                                    String message;
-                                    if(e.code == 'email-already-in-use'){
-                                        message = 'อีเมลนี้ถูกใช้ไปแล้ว!';
-                                    }
-                                    else if(e.code == 'weak-password'){
-                                        message = 'รหัสผ่านต้องมากกว่า 6 ตัวอักษร!';
-                                    }
-                                    else{
-                                      message = e.message.toString();
-                                    }
-                                    Fluttertoast.showToast(
-                                        msg: message,
-                                        gravity: ToastGravity.CENTER
-                                    );
-                                  }
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.redAccent
-                              ),
-                            ),
-                          )
-                        ],
+      future: firebase,
+      builder: (context,snapshot){
+        if(snapshot.hasError){
+          return Scaffold(
+            appBar: AppBar(
+              title: Text("Error"),
+            ),
+            body: Center(
+              child: Text("${snapshot.error}"),
+            ),
+          );
+        }
+        if(snapshot.connectionState == ConnectionState.done){
+          return Scaffold(
+            appBar: AppBar(
+              title: Text("สร้างบัญชีผูู้ใช้"),
+              backgroundColor: Colors.redAccent,
+              centerTitle: true,
+            ),
+            resizeToAvoidBottomInset: false,
+            body: SingleChildScrollView(
+              child: Stack(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/decorations/loginregisterdeco.jpg"),
+                        fit: BoxFit.cover,
+                        colorFilter: ColorFilter.mode(
+                          Colors.black.withOpacity(0.5),
+                          BlendMode.darken,
+                        ),
                       ),
                     ),
                   ),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Form(
+                        key: formKey,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("E-mail",style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.white)),
+                              TextFormField(
+                                validator: MultiValidator([
+                                  RequiredValidator(errorText: "โปรดกรอกอีเมลของคุณ!"),
+                                  EmailValidator(errorText: "โปรดกรอกอีเมลของคุณให้ถูกต้อง!")
+                                ]),
+                                keyboardType: TextInputType.emailAddress,
+                                onSaved: (String? email){
+                                  profile.email = email!;
+                                },
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.white),
+                                decoration: InputDecoration(
+                                  errorStyle: TextStyle(fontSize: 16.0),
+                                ),
+                              ),
+                              SizedBox(height: 15),
+                              Text("Password",style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.white)),
+                              TextFormField(
+                                validator: RequiredValidator(errorText: "โปรดกรอกรหัสผ่านของคุณ!"),
+                                obscureText: true,
+                                onSaved: (String? password){
+                                  profile.password = password!;
+                                },
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.white),
+                                decoration: InputDecoration(
+                                  errorStyle: TextStyle(fontSize: 16.0),
+                                ),
+                              ),
+                              SizedBox(height: 30.0),
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  child: Text("ลงทะเบียน",style: TextStyle(fontSize: 20.0,
+                                  color: Colors.white)),
+                                  onPressed: () async{
+                                    if(formKey.currentState!.validate()){
+                                      formKey.currentState?.save();
+                                      try {
+                                        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                            email: profile.email,
+                                            password: profile.password
+                                        ).then((value) {
+                                          formKey.currentState?.reset();
+                                          Fluttertoast.showToast(
+                                              msg: "สร้างบัญชีผู้ใช้สำเร็จ",
+                                              gravity: ToastGravity.TOP
+                                          );
+                                          Navigator.pushReplacement(context,
+                                              MaterialPageRoute(builder: (context){
+                                                return HomeScreen();
+                                              }));
+                                        });
+                                      }on FirebaseAuthException catch(e){
+                                        String message;
+                                        if(e.code == 'email-already-in-use'){
+                                            message = 'อีเมลนี้ถูกใช้ไปแล้ว!';
+                                        }
+                                        else if(e.code == 'weak-password'){
+                                            message = 'รหัสผ่านต้องมากกว่า 6 ตัวอักษร!';
+                                        }
+                                        else{
+                                          message = e.message.toString();
+                                        }
+                                        Fluttertoast.showToast(
+                                            msg: message,
+                                            gravity: ToastGravity.CENTER
+                                        );
+                                      }
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.redAccent
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             );
           }
-            return Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-      });
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+      }
+    );
   }
 }

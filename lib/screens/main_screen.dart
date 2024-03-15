@@ -21,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     Widget myDrawer = Drawer(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Color(0xff10233b),
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -77,76 +77,105 @@ class _MainScreenState extends State<MainScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sports Quiz'),
-        backgroundColor: Colors.blue,
+        title: Text('โปรดเลือกหัวข้อกีฬา'),
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xffd4145a),
+                Color(0xfffbb03b),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        centerTitle: true,
       ),
       drawer: myDrawer,
-      body: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              MaterialButton(
-                minWidth: 300,
-                height: 50.0,
-                color: Colors.blue,
-                onPressed: startQuiz1,
-                child: Text("Football",
-                  style: TextStyle(
-                      fontSize: 25.0,
-                      color: Colors.white
-                  ),),
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xff45e3ff),
+                  Color(0xffb338d5),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
-              SizedBox(height: 20),
-              MaterialButton(
-                minWidth: 300,
-                height: 50.0,
-                color: Colors.lightGreen,
-                onPressed: startQuiz2,
-                child: Text("Basketball",
-                  style: TextStyle(
-                      fontSize: 25.0,
-                      color: Colors.white
-                  ),),
-              ),
-              SizedBox(height: 20),
-              MaterialButton(
-                minWidth: 300,
-                height: 50.0,
-                color: Colors.orangeAccent,
-                onPressed: startQuiz3,
-                child: Text("Volleyball",
-                  style: TextStyle(
-                      fontSize: 25.0,
-                      color: Colors.white
-                  ),),
-              ),
-              SizedBox(height: 20),
-              MaterialButton(
-                minWidth: 300,
-                height: 50.0,
-                color: Colors.red,
-                onPressed: startQuiz4,
-                child: Text("Baseball",
-                  style: TextStyle(
-                      fontSize: 25.0,
-                      color: Colors.white
-                  ),),
-              ),
-              SizedBox(height: 20),
-              MaterialButton(
-                minWidth: 300,
-                height: 50.0,
-                color: Colors.grey,
-                onPressed: startQuiz5,
-                child: Text("American Football",
-                  style: TextStyle(
-                      fontSize: 25.0,
-                      color: Colors.white
-                  ),),
+            ),
+          ),
+          Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  MaterialButton(
+                    minWidth: 300,
+                    height: 50.0,
+                    color: Colors.red,
+                    onPressed: startQuiz1,
+                    child: Text("Football",
+                      style: TextStyle(
+                          fontSize: 25.0,
+                          color: Colors.white
+                      ),),
+                  ),
+                  SizedBox(height: 20),
+                  MaterialButton(
+                    minWidth: 300,
+                    height: 50.0,
+                    color: Colors.orange,
+                    onPressed: startQuiz2,
+                    child: Text("Basketball",
+                      style: TextStyle(
+                          fontSize: 25.0,
+                          color: Colors.white
+                      ),),
+                  ),
+                  SizedBox(height: 20),
+                  MaterialButton(
+                    minWidth: 300,
+                    height: 50.0,
+                    color: Colors.green,
+                    onPressed: startQuiz3,
+                    child: Text("Volleyball",
+                      style: TextStyle(
+                          fontSize: 25.0,
+                          color: Colors.white
+                      ),),
+                  ),
+                  SizedBox(height: 20),
+                  MaterialButton(
+                    minWidth: 300,
+                    height: 50.0,
+                    color: Colors.blueAccent,
+                    onPressed: startQuiz4,
+                    child: Text("Baseball",
+                      style: TextStyle(
+                          fontSize: 25.0,
+                          color: Colors.white
+                      ),),
+                  ),
+                  SizedBox(height: 20),
+                  MaterialButton(
+                    minWidth: 300,
+                    height: 50.0,
+                    color: Colors.deepPurple,
+                    onPressed: startQuiz5,
+                    child: Text("American Football",
+                      style: TextStyle(
+                          fontSize: 25.0,
+                          color: Colors.white
+                      ),),
+                  )
+                ],
               )
-            ],
-          )
+          ),
+        ],
       ),
     );
   }

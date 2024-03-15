@@ -2,17 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:finalprojectsportsquiz/screens/main_screen.dart';
 import 'package:finalprojectsportsquiz/appbar_clipper.dart';
 
-class Menus extends StatefulWidget {
-  const Menus({super.key});
+class Menus extends StatelessWidget {
+  const Menus({Key? key}) : super(key: key);
 
-  @override
-  State<Menus> createState() => _MenusState();
-}
-
-class _MenusState extends State<Menus> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(150),
         child: AppBar(
@@ -34,42 +30,58 @@ class _MenusState extends State<Menus> {
                 ),
               ),
               child: Center(
-                child: Text("QUIZ",
+                child: Text(
+                  "QUIZ",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 50.0,
-                  ),),
+                  ),
+                ),
               ),
             ),
           ),
         ),
       ),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top:190.0),
-              child: Center(
-                child: MaterialButton(
-                  color: Colors.red,
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context){
-                          return MainScreen();
-                        })
-                    );
-                  },
-                  child: Text("PLAY!",
-                    style: TextStyle(
-                        fontSize: 50.0,
-                        color: Colors.white
-                    ),),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/decorations/menusdeco.jpg"),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.5),
+                    BlendMode.darken,
+                  ),
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                MaterialButton(
+                  color: Colors.red,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainScreen()),
+                    );
+                  },
+                  child: Text(
+                    "PLAY!",
+                    style: TextStyle(
+                      fontSize: 50.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

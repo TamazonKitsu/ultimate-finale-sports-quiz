@@ -79,7 +79,6 @@ class _Quiz1State extends State<Quiz1> {
                   children: <Widget>[
                     Text("Question ${questionNumber + 1} of ${quiz.questions.length}",
                         style: TextStyle(fontSize: 22.0)),
-                    Text("Score: $finalScore", style: TextStyle(fontSize: 22.0)),
                   ],
                 ),
               ),
@@ -246,7 +245,7 @@ class Summary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double progress = score / 30;
+    double progress = score / 20;
     Color containerColor = _getContainerColor(progress);
 
     return Scaffold(
